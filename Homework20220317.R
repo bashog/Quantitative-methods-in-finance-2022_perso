@@ -65,6 +65,9 @@ sum(ResultsVector)/1000
 # Read everything from https://r4ds.had.co.nz/transform.html, up until
 # 5.6 Grouped summaries with summarise(). If you want to, you can
 # read everything and then https://r4ds.had.co.nz/relational-data.html
+library(nycflights13)
+library(tidyverse)
+nycflights13::flights
 
 #Do all the exercises:
 # 5.2.4 Exercises----
