@@ -28,7 +28,7 @@ ResultsVector <- NULL
 for(k in 1:50000){
   selection <- NULL
   for(i in 1:5){
-    selection <- c(selection,sample(group, 1))
+    selection <- c(selection,sample(group, 1, replace = FALSE))
   }
   if(length(selection[selection=='man']) == 3){
     ResultsVector = c(ResultsVector, 1)
