@@ -160,7 +160,7 @@ arrange(ranking, rank_delay)
 select
 
 #5
-#an error because we can addition objects of different length
+#awarning because we can't addition objects of different length
 
 #6
 #cos(x), sin(x),tan(x),acos(x),asin(x),atan(x),atan2(y, x),cospi(x),sinpi(x),tanpi(x)
