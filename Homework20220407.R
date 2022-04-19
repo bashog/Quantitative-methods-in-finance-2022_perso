@@ -92,34 +92,43 @@ NFLX_sma <- AMZN_prices %>% tq_mutate(select = adjusted, mutate_fun = SMA, n = 1
 
 AMZ_sma %>%
   select(date, adjusted, SMA10, SMA26) %>%
-  gather(key = type, value = price, adjusted:SMA26)%>%
-  ggplot(aes(x = date, y = price, col = type)) +
-  geom_line() + 
-  theme(legend.position="bottom") +
-  ggtitle("Simple Moving Averages") +
-  xlab("") + 
-  ylab("Stock Price")
-
+  pivot_longer(adjusted:SMA26, names_to = "Variable", values_to = "Price") %>%
+  ggplot(aes(date, Price, group = Variable, color = Variable)) +
+  geom_line(size = 1) +
+  theme_bw() +
+  labs(title = "AMZ with SMA10 and SMA26", x = "Date", y = "Price")
 
 FB_sma %>%
   select(date, adjusted, SMA10, SMA26) %>%
-  gather(key = type, value = price, adjusted:SMA26)%>%
-  ggplot(aes(x = date, y = price, col = type)) +
-  geom_line() + 
-  theme(legend.position="bottom") +
-  ggtitle("Simple Moving Averages") +
-  xlab("") + 
-  ylab("Stock Price")
+  pivot_longer(adjusted:SMA26, names_to = "Variable", values_to = "Price") %>%
+  ggplot(aes(date, Price, group = Variable, color = Variable)) +
+  geom_line(size = 1) +
+  theme_bw() +
+  labs(title = "FB with SMA10 and SMA26", x = "Date", y = "Price")
 
 NFLX_sma %>%
   select(date, adjusted, SMA10, SMA26) %>%
-  gather(key = type, value = price, adjusted:SMA26)%>%
-  ggplot(aes(x = date, y = price, col = type)) +
-  geom_line() + 
-  theme(legend.position="bottom") +
-  ggtitle("Simple Moving Averages") +
-  xlab("") + 
-  ylab("Stock Price")
+  pivot_longer(adjusted:SMA26, names_to = "Variable", values_to = "Price") %>%
+  ggplot(aes(date, Price, group = Variable, color = Variable)) +
+  geom_line(size = 1) +
+  theme_bw() +
+  labs(title = "NFLX with SMA10 and SMA26", x = "Date", y = "Price")
+
+
+#We buy when the SMA10 crosses the SMA26 form below and the opposite, sell when the 
+#SMA10 crosses the SMA from above
+
+#example with Amazon, same with the others
+
+AMZ_sma_strategy <- AMZ_sma %>%
+  mutate(signal = ifelse(SMA26 > SMA10, "Buy","Sell"),
+         previous_Signal = lag(signal),
+         decision = case_when(signal == previous_Signal ~ "Hold", TRUE ~ signal)
+         ) %>%
+  filter(decision != "Hold") %>%
+  select(date, adjusted, SMA10, SMA26, decision)
+AMZ_sma_strategy
+
 
 
 
